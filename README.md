@@ -26,13 +26,14 @@ provides healthcare recommendations using Java, Python, LangChain, and MySQL.
 - MySQL
 
 ## Architecture
-
+```text
 User
 └── Requests go to...
-└── Spring Boot Backend
-├── MySQL (Data Storage)
-└── Python AI Service
-└── Gemini API (AI Processing)
+    └── Spring Boot Backend
+        ├── MySQL (Data Storage)
+        └── Python AI Service
+            └── Gemini API (AI Processing)
+```
     
 ## Development Roadmap
 
