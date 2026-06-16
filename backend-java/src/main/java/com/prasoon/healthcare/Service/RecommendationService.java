@@ -1,5 +1,6 @@
 package com.prasoon.healthcare.service;
 
+import com.prasoon.healthcare.dto.AiResponse;
 import com.prasoon.healthcare.entity.HealthRecommendation;
 import com.prasoon.healthcare.entity.SymptomLog;
 import com.prasoon.healthcare.repository.HealthRecommendationRepository;
@@ -9,52 +10,37 @@ import org.springframework.stereotype.Service;
 public class RecommendationService {
 
     private final HealthRecommendationRepository recommendationRepository;
+    private final AiServiceClient aiServiceClient;
 
     public RecommendationService(
-            HealthRecommendationRepository recommendationRepository) {
+            HealthRecommendationRepository recommendationRepository,
+            AiServiceClient aiServiceClient) {
 
         this.recommendationRepository = recommendationRepository;
+        this.aiServiceClient = aiServiceClient;
     }
 
     public HealthRecommendation generateRecommendation(
             SymptomLog symptomLog) {
 
-        String symptoms = symptomLog.getSymptoms().toLowerCase();
-
-        String riskLevel;
-        String recommendation;
-
-        if (symptoms.contains("chest pain")
-                || symptoms.contains("difficulty breathing")) {
-
-            riskLevel = "HIGH";
-
-            recommendation =
-                    "Immediate medical attention recommended. Visit the nearest healthcare center.";
-
-        } else if (symptoms.contains("fever")
-                && symptoms.contains("cough")) {
-
-            riskLevel = "MEDIUM";
-
-            recommendation =
-                    "Monitor symptoms, stay hydrated, and consult a doctor if symptoms persist.";
-
-        } else {
-
-            riskLevel = "LOW";
-
-            recommendation =
-                    "Rest adequately and monitor symptoms for changes.";
-        }
+        AiResponse aiResponse =
+                aiServiceClient.analyzeSymptoms(
+                        symptomLog.getSymptoms()
+                );
 
         HealthRecommendation result =
                 new HealthRecommendation();
 
         result.setPatientId(symptomLog.getPatientId());
         result.setSymptomLogId(symptomLog.getSymptomId());
-        result.setRiskLevel(riskLevel);
-        result.setRecommendationText(recommendation);
+
+        result.setRiskLevel(
+                aiResponse.getRiskLevel()
+        );
+
+        result.setRecommendationText(
+                aiResponse.getRecommendation()
+        );
 
         return recommendationRepository.save(result);
     }
