@@ -20,4 +20,16 @@ public class AiResponse {
     public void setRecommendation(String recommendation) {
         this.recommendation = recommendation;
     }
+
+    private String referral;
+
+    public String getReferral() {
+        return referral;
+    }
+
+    public void setReferral(String referral) {
+        this.referral = referral;
+    }
+
+
 }

@@ -22,6 +22,8 @@ public class HealthRecommendation {
 
     private LocalDateTime createdAt;
 
+    private String referral;
+
     public HealthRecommendation() {
         this.createdAt = LocalDateTime.now();
     }
@@ -68,5 +70,12 @@ public class HealthRecommendation {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+    public String getReferral() {
+        return referral;
+    }
+
+    public void setReferral(String referral) {
+        this.referral = referral;
     }
 }

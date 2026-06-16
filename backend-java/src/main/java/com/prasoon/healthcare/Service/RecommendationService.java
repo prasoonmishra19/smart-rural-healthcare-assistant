@@ -42,6 +42,10 @@ public class RecommendationService {
                 aiResponse.getRecommendation()
         );
 
+        result.setReferral(
+                aiResponse.getReferral()
+        );
+
         return recommendationRepository.save(result);
     }
 }
