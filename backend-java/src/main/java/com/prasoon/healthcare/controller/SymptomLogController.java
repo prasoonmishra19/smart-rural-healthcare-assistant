@@ -1,7 +1,7 @@
 package com.prasoon.healthcare.controller;
 
 import com.prasoon.healthcare.entity.SymptomLog;
-import com.prasoon.healthcare.repository.SymptomLogRepository;
+import com.prasoon.healthcare.service.SymptomAnalysisService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,19 +10,19 @@ import java.util.List;
 @RequestMapping("/api/symptoms")
 public class SymptomLogController {
 
-    private final SymptomLogRepository symptomLogRepository;
+    private final SymptomAnalysisService symptomAnalysisService;
 
-    public SymptomLogController(SymptomLogRepository symptomLogRepository) {
-        this.symptomLogRepository = symptomLogRepository;
+    public SymptomLogController(SymptomAnalysisService symptomAnalysisService) {
+        this.symptomAnalysisService = symptomAnalysisService;
     }
 
     @GetMapping
     public List<SymptomLog> getAllSymptoms() {
-        return symptomLogRepository.findAll();
+        return symptomAnalysisService.getAllSymptoms();
     }
 
     @PostMapping
     public SymptomLog saveSymptoms(@RequestBody SymptomLog symptomLog) {
-        return symptomLogRepository.save(symptomLog);
+        return symptomAnalysisService.saveSymptoms(symptomLog);
     }
 }
